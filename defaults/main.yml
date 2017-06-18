@@ -1,2 +1,8 @@
 ---
 # defaults file for ansible-certbot
+
+certbot_cert_domain: www.example.com
+certbot_cert_email: admin@example.com
+
+certbot_directory: /etc/letsencrypt/live
+certbot_cert_directory: "{{ certbot_directory }}/{{ certbot_cert_domain }}"
