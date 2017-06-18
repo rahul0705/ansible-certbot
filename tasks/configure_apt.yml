@@ -3,5 +3,5 @@
 
 - name: add Certbot PPA
   apt_repository:
-    repo: 'ppa:certbot/certbot'
+    repo: "ppa:certbot/certbot"
     state: present
