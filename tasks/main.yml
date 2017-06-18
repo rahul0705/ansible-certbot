@@ -16,7 +16,7 @@
     state: present
 
 - name: generate certificates
-  command: certbot --apache certonly --noninteractive --domains {{ certbot_cert_domain }}
+  command: certbot --apache certonly --noninteractive --agree-tos --email {{ certbot_cert_email }} --domains {{ certbot_cert_domain }}
   args:
     creates: "{{ certbot_cert_directory }}"
 
