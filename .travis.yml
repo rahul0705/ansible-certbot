@@ -3,8 +3,8 @@ language: python
 python: "2.7"
 
 # Use the new container infrastructure
+sudo: required
 dist: trusty
-sudo: true
 
 # Install ansible
 addons:
@@ -31,15 +31,15 @@ script:
   # Test for Failure
   - >
     ansible-playbook -i tests/inventory tests/test.yml --become
-    --connection=local
+    --connection=local --exclude-tags generate_certs
   # Test for Idempotence
   - >
     ansible-playbook -i tests/inventory tests/test.yml --become
-    --connection=local
+    --connection=local --exclude-tags generate_certs
     | grep -q 'changed=0.*failed=0'
   # Test for Success
   - >
-    sudo ls /etc/letsencrypt/live/www.example.com
+    sudo crontab -ls | grep "certbot renew"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

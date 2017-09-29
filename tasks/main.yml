@@ -1,28 +1,38 @@
 ---
 # tasks file for ansible-certbot
 
-- name: install dependencies
+- name: Install dependencies
   package:
     name: software-properties-common
     state: present
+  tags:
+    - install
 
-- include: configure_{{ ansible_pkg_mgr }}.yml
+- include_tasks: configure_{{ ansible_pkg_mgr }}.yml
   when:
     - ansible_pkg_mgr == "apt"
+  tags:
+    - install
 
-- name: install Certbot
+- name: Install Certbot
   package:
     name: python-certbot-apache
     state: present
+  tags:
+    - install
 
-- name: generate certificates
+- name: Generate certificates
   command: certbot --apache certonly --noninteractive --agree-tos --email {{ certbot_cert_email }} --domains {{ certbot_cert_domain }}
   args:
     creates: "{{ certbot_cert_directory }}"
+  tags:
+    - generate_certs
 
-- name: create automatic renewal cron job for cert
+- name: Create automatic renewal cron job for cert
   cron:
     name: daily automatic renewal for {{ certbot_cert_domain }}
     special_time: daily
     job: certbot renew
     state: present
+  tags:
+    renew_certs
