@@ -39,7 +39,7 @@ script:
     | grep -q 'changed=0.*failed=0'
   # Test for Success
   - >
-    sudo crontab -ls | grep "certbot renew"
+    sudo crontab -l | grep "certbot renew"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
